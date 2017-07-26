@@ -87,18 +87,28 @@ orderCode = M.fromList [(NameDes, 1), (NameAsc, 2), (UploadedDes, 3), (UploadedA
 defaultDomain :: String
 defaultDomain = "https://thepiratebay.co.in"
 
-{-createSearchURL :: String -> String
-createURL query = let attr = Attributes {categories=Nothing, order=Nothing, page=Nothing, domain=Nothing}
+getEmptyAttributes :: QueryAttribiutes
+getEmptyAttributes = Attributes {categories=Nothing, order=Nothing, page=Nothing, domain=Nothing}
+
+getDomain :: QueryAttribiutes -> String
+getDomain att = case domain att of Nothing -> defaultDomain
+                                   x -> if last x == '/' then take (length x - 1) x else x
+
+createSimpleURL :: String -> String
+createSimpleURL query = let attr = getEmptyAttributes
                   in createComplexSearchURL query attr
--}
+
 createComplexSearchURL :: String -> QueryAttribiutes -> String
-createComplexSearchURL query attrs = undefined
+createComplexSearchURL query attrs = let dom = getDomain attrs
+                                     let page = getPage attrs
+                                     let order = getOrder attrs
+                                     let cat = getCategories attrs
 
 createBrowseURL :: String -> QueryAttribiutes -> String
 createBrowseURL query attrs = undefined
 
-createRecentURL :: String -> String
-createRecentURL query = undefined
+createRecentURL :: String -> QueryAttribiutes -> String
+createRecentURL query attrs = undefined
 
 createTopURL :: String -> QueryAttribiutes -> String
 createTopURL query attrs = undefined
